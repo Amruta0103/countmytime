@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import Timer from "./components/Timer";
 
 const App = () => {
   const App = styled.div`
   background-color : #282c34 ;
-  color white;
+  color: white;
   display: flex;
   text-align : center;
   justify-content: center;
@@ -20,18 +21,11 @@ const App = () => {
   display: flex;
   justify-content: center;
   `
-  const Timer = styled.div`
-  margin: auto;
-  `
-  const Time = styled.div`
-  font-size: 5rem;
-  `
+
   return (
     <App>
      <Pomodoro>
-      <Timer>
-        <Time>25:00</Time>
-      </Timer>
+      <Timer />
      </Pomodoro>
     </App>
   );
