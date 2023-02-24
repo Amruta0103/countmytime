@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Timer = () => {
   let newMins, newSecs;
   const [isPaused, setIsPaused] = useState(true);
-  const [timerMessage, setTimerMessage] = useState(false); 
+  const [isShowTimer, setShowTimer] = useState(true);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
@@ -28,6 +28,7 @@ const Timer = () => {
     console.log("nava time", newMins, newSecs)
     setMinutes(newMins);
     setSeconds(newSecs);
+    return setShowTimer(true);
   }
 
   let interval = setInterval(()=>{
@@ -41,7 +42,8 @@ const Timer = () => {
             setSeconds(0);
             setMinutes(0);
             clearInterval(interval);
-            return setTimerMessage(true);
+            setShowTimer(!isShowTimer);
+            return setIsPaused(!isPaused);
           }
         }else{
           setSeconds(seconds - 1)
@@ -57,27 +59,58 @@ const Timer = () => {
 
   const Timer = styled.div`
   margin: auto;
-  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  `
+  const Time = styled.div`
+  font-size: 8em;
+  margin: 1rem auto;
+  `
+  const SettingBlock = styled.div`
+  margin: 2rem 0;
+  `
+  
+  const InputBlock = styled.div`
+  margin: auto;
   `
   const InputTime = styled.input`
   height: 2rem;
   width: 8rem;
-  border-radius: 2rem;
+  margin: 0.5rem;
   `
-
+  const ButtonsBlock = styled.div`
+  margin: auto;
+  display: flex;
+  align-items: center;
+  `
+  const Button = styled.button`
+  height: 3rem;
+  width: 9rem;
+  border-radius: 2rem;
+  margin: 0.5rem;
+  text-align: center;
+  border: 1px solid transparent;
+  `
+  
   return(
     <Timer>
-      <InputTime placeholder='Enter time here' onChange={handleChangeOne}/>
-      <InputTime placeholder='Enter time here' onChange={handleChangeTwo}/>
-      <button onClick={newTime}>Set New Value</button>
-      <button onClick={() => setIsPaused(!isPaused)}>
-        {isPaused ? "Start" : "Stop"}
-      </button>
-      {/* <button>Reset</button> */}
-      <br />
-      {timerMinutes}:{timerSeconds}
-      <br />
-      {timerMessage ? "Time's Up!!" : " "}
+      <Time>
+        {isShowTimer ? `${timerMinutes}:${timerSeconds}`: "Time's Up!" }
+      </Time>
+      <SettingBlock>
+        <InputBlock>
+          <InputTime placeholder='Minutes' onChange={handleChangeOne}/>
+          <InputTime placeholder='Seconds' onChange={handleChangeTwo}/>
+        </InputBlock>
+        <ButtonsBlock>
+          <Button onClick={newTime}>New Timer</Button>
+          <Button onClick={() => setIsPaused(!isPaused)}>
+            {isPaused ? "Start" : "Stop"}
+          </Button>
+        </ButtonsBlock>
+      </SettingBlock>
     </Timer>
   )
 };
