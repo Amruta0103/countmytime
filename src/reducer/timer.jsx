@@ -4,5 +4,7 @@ const Timer = (state = {}, action) =>{
       return (isRunning = true );
     case "stop" :
       return (isRunning = false);
+    default:
+      return state;
   }
 }
