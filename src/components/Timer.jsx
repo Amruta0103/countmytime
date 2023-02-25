@@ -60,32 +60,49 @@ const Timer = () => {
   const Timer = styled.div`
   margin: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  height: inherit;
   `
   const Time = styled.div`
-  font-size: 8em;
-  margin: 1rem auto;
+  font-size: 7em;
+  margin: auto;
   `
   const SettingBlock = styled.div`
-  margin: 2rem 0;
+  margin: 0rem;
   `
-  
   const InputBlock = styled.div`
   margin: auto;
   `
   const InputTime = styled.input`
+  text-align: center;
+  font-size: 1.5em;
+  color: white;
   height: 2rem;
   width: 8rem;
   margin: 0.5rem;
+  border-width: 0px;
+  border-bottom: 1.5px solid black;
+  background-color: transparent;
+
+  :: placeholder{
+    color: white;
+    text-align: center;
+  }
+
+  &:focus {
+    border-bottom: 1.5px solid white;
+    outline: transparent none 0px;
+  }
   `
   const ButtonsBlock = styled.div`
-  margin: auto;
+  margin: 1rem 0rem;
   display: flex;
   align-items: center;
   `
   const Button = styled.button`
+  font-size: 1em;
   height: 3rem;
   width: 9rem;
   border-radius: 2rem;
@@ -93,7 +110,6 @@ const Timer = () => {
   text-align: center;
   border: 1px solid transparent;
   `
-  
   return(
     <Timer>
       <Time>
@@ -105,7 +121,7 @@ const Timer = () => {
           <InputTime placeholder='Seconds' onChange={handleChangeTwo}/>
         </InputBlock>
         <ButtonsBlock>
-          <Button onClick={newTime}>New Timer</Button>
+          <Button onClick={newTime}>Set Time</Button>
           <Button onClick={() => setIsPaused(!isPaused)}>
             {isPaused ? "Start" : "Stop"}
           </Button>
