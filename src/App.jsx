@@ -16,8 +16,8 @@ const App = () => {
   height: 80%;
   width: 80%;
   border-radius: 2rem;
-  backdrop-filter: blur(20px);
-  background: rgb(255, 255, 255, 0.2);
+  // backdrop-filter: blur(20px);
+  // background: rgb(255, 255, 255, 0.2);
   display: flex;
   justify-content: center;
   `
