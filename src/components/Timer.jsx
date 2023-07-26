@@ -4,44 +4,27 @@ import styled from 'styled-components';
 const Timer = () => {
   // let newMins, newSecs;
   const [isPaused, setIsPaused] = useState(true);
-  const [isShowTimer, setShowTimer] = useState(true);
-  const [minutes, setMinutes] = useState('00');
+  // const [isShowTimer, setShowTimer] = useState(true);
+  // const [minutes, setMinutes] = useState('00');
   const [seconds, setSeconds] = useState(0);
 
-  // const handleChangeOne = (e) => {
-  //   newMins = e.target.value;
-  //   console.log("this is newMins",newMins);
+  // const changedTime = () => {
+  //   console.log("focused")
   // }
 
-  // const handleChangeTwo = (f) => {
-  //   newSecs = f.target.value;
-  //   console.log("this is newSecs",newSecs);
+  // const setTimer = (e) => {
+  //   setSeconds(e.target.value);
+  //   console.log(seconds);
   // }
-
-  // const newTime = () => {
-  //   if(newMins === undefined){
-  //     newMins = 0;
-  //   }
-  //   if(newSecs === undefined){
-  //     newSecs = 0;
-  //   }
-  //   console.log("nava time", newMins, newSecs)
-  //   setMinutes(newMins);
-  //   setSeconds(newSecs);
-  //   return setShowTimer(true);
-  // }
-
   const timerHandler = () => {
     setIsPaused(!isPaused);
-    // if(seconds==0){
-      // setIsPaused(true);
-    // }
   }
 
   let interval = setInterval(()=>{
     if(!isPaused){
       clearInterval(interval);
         if (seconds === 0){
+          setIsPaused(true);
           // if (minutes !== 0 ){
           //   setSeconds(59);
           //   setMinutes(minutes - 1)
@@ -54,9 +37,6 @@ const Timer = () => {
           // }
         }else{
           setSeconds(seconds - 1)
-          if(seconds === 0){
-            setIsPaused(true);
-          }
         }
     }else{
       clearInterval(interval);
@@ -64,24 +44,15 @@ const Timer = () => {
   },1000) 
 
 
-  // const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  // const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
-
   return(
     <TimerBox>
-      <div>{seconds}</div>
-      <Time>
-        <TimeInput type='text' placeholder={seconds} onChangeCapture={(e) => setSeconds(e.target.value)} />
+      <Time itemType='number' contentEditable={true} suppressContentEditableWarning={true} onBlur={(e) => setSeconds(e.target.innerText)}>
+        {seconds}
       </Time>
       <SettingBlock>
-        {/* <InputBlock> */}
-          {/* <InputTime placeholder='Minutes' onChange={handleChangeOne}/> */}
-          {/* <InputTime placeholder='Seconds' onChange={handleChangeTwo}/> */}
-        {/* </InputBlock> */}
         <ButtonsBlock>
-          {/* <Button onClick={newTime}>Set Time</Button> */}
           <Button style={{color:"black"}} onClick={timerHandler}>
-            {isPaused? "yes" : "no"}
+            {isPaused? "start" : "stop"}
           </Button>
         </ButtonsBlock>
       </SettingBlock>
@@ -101,14 +72,14 @@ const Time = styled.div`
 font-size: 7em;
 margin: auto;
 `
-const TimeInput = styled.input`
-margin: auto;
-font-size: inherit;
-width: 200px;
-background: transparent;
-border: none;
-box-shadow: none;
-`
+// const TimeInput = styled.input`
+// margin: auto;
+// font-size: inherit;
+// width: 200px;
+// background: transparent;
+// border: none;
+// box-shadow: none;
+// `
 const SettingBlock = styled.div`
 margin: 0rem;
 `
