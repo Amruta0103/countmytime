@@ -9,6 +9,10 @@ const Timer = () => {
   // const [edit, setEdit] = useState(true);
   // console.log("here",minutes, seconds)
 
+  const focus = () => {
+    // let value = " ";
+  }
+
   const resetTimer = () => {
     setTimeUp(false)
     // setEdit(true);
@@ -20,9 +24,10 @@ const Timer = () => {
   }
 
   let interval = setInterval(()=>{
-    // parseInt(seconds);
-    // parseInt(minutes);
+    // console.log("here",typeof(seconds),typeof(minutes));
     if(!isPaused){
+      setSeconds(parseInt(seconds));
+      setMinutes(parseInt(minutes));
       clearInterval(interval);
         if (seconds === 0){
           if (minutes !== 0 ){
@@ -53,7 +58,7 @@ const Timer = () => {
           <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
         :
           <TimeBlock>
-            <Time maxLength={2} onChange={(e)=> setMinutes(e.target.value)} placeholder='00' value={minutes}/>
+            <Time maxLength={2} onChange={(e)=> setMinutes(e.target.value)} onFocus={focus} value={minutes}/>
             <Time maxLength={2} onChange={(e)=> setSeconds(e.target.value)} value={seconds}/>
           </TimeBlock>
         }
@@ -117,7 +122,7 @@ const Button = styled.button`
 color: black;
 font-size: 1em;
 height: 3rem;
-width: 9rem;
+width: 6rem;
 border-radius: 2rem;
 margin: 0.5rem;
 text-align: center;
