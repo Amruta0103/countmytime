@@ -6,18 +6,22 @@ const Timer = () => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [timeUp, setTimeUp] = useState(false);
-  const [edit, setEdit] = useState(true);
+  // const [edit, setEdit] = useState(true);
+  // console.log("here",minutes, seconds)
 
   const resetTimer = () => {
     setTimeUp(false)
-    setEdit(true);
+    // setEdit(true);
   }
 
   const timer = () => {
     setIsPaused(!isPaused)
-    setEdit(false)
+    // setEdit(false)
   }
+
   let interval = setInterval(()=>{
+    // parseInt(seconds);
+    // parseInt(minutes);
     if(!isPaused){
       clearInterval(interval);
         if (seconds === 0){
@@ -25,9 +29,9 @@ const Timer = () => {
             setSeconds(59);
             setMinutes(minutes - 1)
           }else{
+            clearInterval(interval);
             setSeconds(0);
             setMinutes(0);
-            clearInterval(interval);
             setIsPaused(true);
             setTimeUp(true);
           }
@@ -39,20 +43,18 @@ const Timer = () => {
     }
   },1000)
 
+  // const newSec = seconds <= 9 ? `0${seconds}` : seconds ;
+
   return(
     <TimerBox>
       <Display>
-        {timeUp ? 
+        {
+        timeUp ? 
           <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
         :
           <TimeBlock>
-            <Time itemType='number' contentEditable={edit} suppressContentEditableWarning={true} onBlur={(min) => setMinutes(min.target.innerText)}>
-              {minutes}
-            </Time>
-            <span>:</span>
-            <Time id='sec' itemType='number' contentEditable={edit} suppressContentEditableWarning={true} onBlur={(sec) => setSeconds(sec.target.innerText)}>
-              {seconds}
-            </Time>
+            <Time maxLength={2} onChange={(e)=> setMinutes(e.target.value)} placeholder='00' value={minutes}/>
+            <Time maxLength={2} onChange={(e)=> setSeconds(e.target.value)} value={seconds}/>
           </TimeBlock>
         }
       </Display>
@@ -77,22 +79,34 @@ justify-content: center;
 align-items: center;
 flex-direction: column;
 height: inherit;
+width: 90%;
 `
 const Display = styled.div`
 font-size: 7em;
+width: 90%;
+height: 10rem;
 `
 const TimeUpMsg = styled.div`
 font-weight: 200;
 `
 const TimeBlock = styled.div`
 display: flex;
+justify-content: center;
+align-items: center;
 `
-const Time = styled.div`
-margin: auto;
+const Time = styled.input`
+width: 9rem;
+height: 8rem;
+font-size: 8rem;
+color: white;
+margin: auto 1.5rem;
+padding: 1rem;
 border: 1px solid transparent;
 box-shadow: none;
 outline: none;
-caret-color: rgba(255,255,255,0.3);
+caret-color: rgba(255,255,255,0.5);
+background: transparent;
+text-align: center;
 `
 const ButtonsBlock = styled.div`
 margin: 1rem 0rem;
