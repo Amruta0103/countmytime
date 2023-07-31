@@ -11,12 +11,16 @@ const SideBar = () => {
   }
 
   const starter = () => {
-    setIniSec(seconds)
+    if(minutes && seconds === ''){
+      setMinutes(0);
+      setSeconds(0);
+    }
+    console.log(minutes,seconds)
     setIsPaused(!isPaused)
   }
 
   let interval = setInterval(()=>{
-    console.log("maybe",seconds)
+    console.log("maybe",minutes,seconds)
     if(!isPaused){
       clearInterval(interval);
         if (seconds === 0){

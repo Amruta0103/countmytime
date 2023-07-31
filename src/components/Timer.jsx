@@ -2,64 +2,12 @@ import { useTimer } from '../context/TimerContext';
 import styled from 'styled-components';
 
 const Timer = () => {
-  const {iniSec,seconds, minutes,timeUp, setIsPaused, isPaused} = useTimer()
-  // const [isPaused, setIsPaused] = useState(true);
-  // const [minutes, setMinutes] = useState('');
-  // const [seconds, setSeconds] = useState('');
-  // const [timeUp, setTimeUp] = useState(false);
-  // const [edit, setEdit] = useState(true);
-  // console.log("here",minutes, seconds)
-
-  // const focus = () => {
-    // let value = " ";
-  // }
-
-  // const resetTimer = () => {
-  //   setMinutes('')
-  //   setSeconds('')
-  //   setTimeUp(false)
-  //   console.log(minutes,"&",seconds)
-  //   // setEdit(true);
-  // }
-
-  // const timer = () => {
-  //   setIsPaused(!isPaused)
-  //   // setEdit(false)
-  // }
-
-  // let interval = setInterval(()=>{
-  //   console.log("yaha",minutes);
-  //   if(!isPaused){
-  //     // if(seconds === '' && minutes === ''){
-  //     //   setSeconds(0)
-  //     //   setMinutes(0);
-  //     // }
-  //     // setSeconds(parseInt(seconds));
-  //     // setMinutes(parseInt(minutes));
-  //     clearInterval(interval);
-  //       // if(minutes === ''){
-  //         // setMinutes(0) 
-  //       // }
-  //       if (seconds === 0){
-  //         if (minutes === 0 || ''){
-  //           clearInterval(interval);
-  //           setSeconds(0);
-  //           setMinutes(0);
-  //           setIsPaused(true);
-  //           setTimeUp(true);
-  //         }else{
-  //           setSeconds(59);
-  //           setMinutes(minutes - 1)
-  //         }
-  //       }else{
-  //         setSeconds(seconds - 1)
-  //       }
-  //   }else{
-  //     clearInterval(interval);
-  //   }
-  // },1000)
-
-  // const newSec = seconds <= 9 ? `0${seconds}` : seconds ;
+  const {iniSec,seconds,iniMin,minutes,timeUp, setIsPaused, isPaused} = useTimer()
+  let wpttl;
+  if(iniMin === 1 ){
+    wpttl = (seconds/iniSec)
+    console.log("total time",wpttl, "&", iniMin)
+  }
 
   return(
     <TimerBox>
@@ -69,14 +17,16 @@ const Timer = () => {
           <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
         :
           <TimeBlock>
-            <Time>{minutes}</Time>
-            <Time>{seconds}</Time>
+            <TimeSubBlock>
+              <Time>{minutes}</Time>
+              <Time>{seconds}</Time>
+            </TimeSubBlock>
+            <Line>
+              <LineFill style={{width: `${wpttl}%`}}></LineFill>
+            </Line>
           </TimeBlock>
         }
       </Display>
-      <Line>
-        <LineFill style={{width: `${(seconds/iniSec)*100}%`}}></LineFill>
-      </Line>
       <ButtonsBlock>
         {
           isPaused ? 
@@ -108,9 +58,16 @@ font-weight: 200;
 `
 const TimeBlock = styled.div`
 display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`
+const TimeSubBlock = styled.div`
+display: flex;
 justify-content: center;
 align-items: center;
 border: 2px solid indianred;
+margin: 0.5rem auto;
 `
 const Time = styled.div`
 display: flex;
@@ -127,7 +84,7 @@ text-align: center;
 `
 const Line = styled.div`
 width: 100%;
-height: 1rem;
+height: 0.3rem;
 border: 2px solid indianred;
 `
 const LineFill = styled.div`
