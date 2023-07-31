@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 const Timer = () => {
   const {iniSec,seconds,iniMin,minutes,timeUp, setIsPaused, isPaused} = useTimer()
+  console.log(isPaused);
   let wpttl;
-  if(iniMin === 1 ){
-    wpttl = (seconds/iniSec)
-    console.log("total time",wpttl, "&", iniMin)
+  if(iniMin === 0 ){
+    wpttl = (iniSec/seconds)*100
   }
 
   return(
@@ -22,7 +22,7 @@ const Timer = () => {
               <Time>{seconds}</Time>
             </TimeSubBlock>
             <Line>
-              <LineFill style={{width: `${wpttl}%`}}></LineFill>
+              <LineFill style={!isPaused ? {width:`${wpttl}%`} : {width:"100%"}}></LineFill>
             </Line>
           </TimeBlock>
         }
