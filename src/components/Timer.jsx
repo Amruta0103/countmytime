@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const Timer = () => {
   const [isPaused, setIsPaused] = useState(true);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState('');
+  const [seconds, setSeconds] = useState('');
   const [timeUp, setTimeUp] = useState(false);
   // const [edit, setEdit] = useState(true);
   // console.log("here",minutes, seconds)
@@ -14,7 +14,10 @@ const Timer = () => {
   }
 
   const resetTimer = () => {
+    setMinutes('')
+    setSeconds('')
     setTimeUp(false)
+    console.log(minutes,"&",seconds)
     // setEdit(true);
   }
 
@@ -24,21 +27,28 @@ const Timer = () => {
   }
 
   let interval = setInterval(()=>{
-    // console.log("here",typeof(seconds),typeof(minutes));
+    console.log("yaha",minutes);
     if(!isPaused){
-      setSeconds(parseInt(seconds));
-      setMinutes(parseInt(minutes));
+      // if(seconds === '' && minutes === ''){
+      //   setSeconds(0)
+      //   setMinutes(0);
+      // }
+      // setSeconds(parseInt(seconds));
+      // setMinutes(parseInt(minutes));
       clearInterval(interval);
+        // if(minutes === ''){
+          // setMinutes(0) 
+        // }
         if (seconds === 0){
-          if (minutes !== 0 ){
-            setSeconds(59);
-            setMinutes(minutes - 1)
-          }else{
+          if (minutes === 0 || ''){
             clearInterval(interval);
             setSeconds(0);
             setMinutes(0);
             setIsPaused(true);
             setTimeUp(true);
+          }else{
+            setSeconds(59);
+            setMinutes(minutes - 1)
           }
         }else{
           setSeconds(seconds - 1)
@@ -58,8 +68,8 @@ const Timer = () => {
           <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
         :
           <TimeBlock>
-            <Time maxLength={2} onChange={(e)=> setMinutes(e.target.value)} onFocus={focus} value={minutes}/>
-            <Time maxLength={2} onChange={(e)=> setSeconds(e.target.value)} value={seconds}/>
+            <Time placeholder='00' maxLength={2} onChange={(e)=> setMinutes(parseInt(e.target.value))} onFocus={focus} value={minutes}/>
+            <Time placeholder='00' maxLength={2} onChange={(e)=> setSeconds(parseInt(e.target.value))} value={seconds}/>
           </TimeBlock>
         }
       </Display>
