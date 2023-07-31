@@ -3,8 +3,9 @@ import { useState, useContext, createContext } from "react";
 export const TimerContext = createContext();
 
 export function TimerProvider({children}) {
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+  const [iniSec, setIniSec] = useState(0);
+  const [seconds, setSeconds] = useState('');
+  const [minutes, setMinutes] = useState('');
   const [hours, setHours] = useState(0);
   const [disp, setDisp] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
@@ -12,7 +13,7 @@ export function TimerProvider({children}) {
 
   return(
     <TimerContext.Provider
-      value={{seconds,setSeconds,minutes,setMinutes, hours, setHours,disp, setDisp,isPaused, setIsPaused,timeUp, setTimeUp}}
+      value={{iniSec,setIniSec,seconds,setSeconds,minutes,setMinutes, hours, setHours,disp, setDisp,isPaused, setIsPaused,timeUp, setTimeUp}}
     >
       {children}
     </TimerContext.Provider>

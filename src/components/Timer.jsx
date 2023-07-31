@@ -2,7 +2,7 @@ import { useTimer } from '../context/TimerContext';
 import styled from 'styled-components';
 
 const Timer = () => {
-  const {seconds, minutes,timeUp} = useTimer()
+  const {iniSec,seconds, minutes,timeUp, setIsPaused, isPaused} = useTimer()
   // const [isPaused, setIsPaused] = useState(true);
   // const [minutes, setMinutes] = useState('');
   // const [seconds, setSeconds] = useState('');
@@ -69,21 +69,22 @@ const Timer = () => {
           <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
         :
           <TimeBlock>
-            <Time>{minutes <10 ? `0${minutes}` : minutes}</Time>
-            <Time>{seconds <10 ?`0${seconds}` : seconds}</Time>
+            <Time>{minutes}</Time>
+            <Time>{seconds}</Time>
           </TimeBlock>
         }
       </Display>
-        {/* <ButtonsBlock>
-          {
-            timeUp ? 
-            <Button style={{color:"black"}} onClick={resetTimer} >Reset</Button>
-            :
-            <Button style={{color:"black"}} onClick={timer}>
-              {isPaused? "start" : "stop"}
-            </Button>
-          }
-        </ButtonsBlock> */}
+      <Line>
+        <LineFill style={{width: `${(seconds/iniSec)*100}%`}}></LineFill>
+      </Line>
+      <ButtonsBlock>
+        {
+          isPaused ? 
+          <div></div>
+          :
+          <Button style={{color:"black"}} onClick={()=> setIsPaused(!isPaused)}>Stop</Button>
+        }
+      </ButtonsBlock>
     </TimerBox>
   )
 };
@@ -109,6 +110,7 @@ const TimeBlock = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
+border: 2px solid indianred;
 `
 const Time = styled.div`
 display: flex;
@@ -123,21 +125,31 @@ border: 1px solid transparent;
 background: transparent;
 text-align: center;
 `
-// const ButtonsBlock = styled.div`
-// margin: 1rem 0rem;
-// display: flex;
-// align-items: center;
-// `
-// const Button = styled.button`
-// color: black;
-// font-size: 1em;
-// height: 3rem;
-// width: 6rem;
-// border-radius: 2rem;
-// margin: 0.5rem;
-// text-align: center;
-// border: 1px solid transparent;
-// `
+const Line = styled.div`
+width: 100%;
+height: 1rem;
+border: 2px solid indianred;
+`
+const LineFill = styled.div`
+background: indianred;
+height: 100%;
+// min-width: 100%;
+`
+const ButtonsBlock = styled.div`
+margin: 1rem 0rem;
+display: flex;
+align-items: center;
+`
+const Button = styled.button`
+color: black;
+font-size: 1em;
+height: 3rem;
+width: 6rem;
+border-radius: 2rem;
+margin: 0.5rem;
+text-align: center;
+border: 1px solid transparent;
+`
 
 export default Timer; 
  
