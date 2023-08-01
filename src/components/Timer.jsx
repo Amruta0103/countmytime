@@ -1,112 +1,124 @@
-import { useTimer } from '../context/TimerContext';
-import styled from 'styled-components';
+import styled from "styled-components";
+import { useTimer } from "../context/TimerContext";
 
 const Timer = () => {
-  const {iniSec,seconds,iniMin,minutes,timeUp, setIsPaused, isPaused} = useTimer()
-  console.log(isPaused);
-  let wpttl;
-  if(iniMin === 0 ){
-    wpttl = (iniSec/seconds)*100
+  const {seconds,setSeconds,minutes,setMinutes,isPaused,setIsPaused, timeUp,setTimeUp} = useTimer();
+  // console.log(minutes,"&",seconds)
+
+  const resetTimer = () => {
+    setMinutes(0);
+    setSeconds(0);
+    setTimeUp(false);
   }
+
+  let interval = setInterval(()=>{
+    if(!isPaused){
+      clearInterval(interval);
+        if (seconds > 59){
+          setSeconds(59);
+        }else if(seconds === 0){
+          setSeconds(0);
+          if (minutes !== 0){
+            setSeconds(59);
+            setMinutes(minutes - 1)
+          }else{
+            clearInterval(interval);
+            setSeconds(0);
+            setMinutes(0);
+            setIsPaused(true);
+            setTimeUp(true);
+          }
+        }else{
+          setSeconds(seconds - 1)
+        }
+    }else{
+      clearInterval(interval);
+    }
+  },1000)
 
   return(
     <TimerBox>
-      <Display>
-        {
-        timeUp ? 
+      {timeUp ? 
           <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
         :
-          <TimeBlock>
-            <TimeSubBlock>
-              <Time>{minutes}</Time>
-              <Time>{seconds}</Time>
-            </TimeSubBlock>
-            <Line>
-              <LineFill style={!isPaused ? {width:`${wpttl}%`} : {width:"100%"}}></LineFill>
-            </Line>
-          </TimeBlock>
-        }
-      </Display>
-      <ButtonsBlock>
-        {
-          isPaused ? 
-          <div></div>
-          :
-          <Button style={{color:"black"}} onClick={()=> setIsPaused(!isPaused)}>Stop</Button>
-        }
-      </ButtonsBlock>
+        <TimeBlock>
+          <InpBlock>
+          <InpVal id="min" maxLength={2} placeholder="--" onChange={(e) => setMinutes(parseInt(e.target.value ))} value={minutes || ''} disabled={isPaused? false : true}/>
+          <InpLabel>Minutes</InpLabel>
+          </InpBlock>
+          <InpBlock>
+          <InpVal max={59} maxLength={2} placeholder="--" onChange={(e) => setSeconds(parseInt(e.target.value))} value={seconds || ''} disabled={isPaused ? false : true}/>
+          <InpLabel>Seconds</InpLabel>
+          </InpBlock>
+        </TimeBlock>
+      }
+      {
+        timeUp ? 
+        <Button style={{color:"black"}} onClick={resetTimer} >Reset</Button>
+        :
+        <Button style={{color:"black"}} onClick={()=>setIsPaused(!isPaused)}>
+          {isPaused? "Start" : "Stop"}
+        </Button>
+      }
     </TimerBox>
   )
-};
+}
 
 const TimerBox = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 margin: auto;
+height: 100%;
+border-radius: 2rem;
+`
+const TimeBlock = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-flex-direction: column;
-height: inherit;
-width: 90%;
-`
-const Display = styled.div`
-font-size: 7em;
-width: 90%;
-height: 10rem;
 `
 const TimeUpMsg = styled.div`
 font-weight: 200;
 `
-const TimeBlock = styled.div`
+const InpBlock = styled.div`
 display: flex;
 flex-direction: column;
-justify-content: center;
 align-items: center;
+justify-content: center;
 `
-const TimeSubBlock = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-border: 2px solid indianred;
+const InpVal = styled.input`
+// width: 5rem;
+// height: 1.5rem;
 margin: 0.5rem auto;
-`
-const Time = styled.div`
 display: flex;
 align-items: center;
 justify-content: center;
 width: 8rem;
 height: 8rem;
-font-size: 8rem;
+font-size: 5rem;
 color: white;
-margin: auto;
+// margin: auto;
 border: 1px solid transparent;
 background: transparent;
 text-align: center;
 `
-const Line = styled.div`
-width: 100%;
-height: 0.3rem;
-border: 2px solid indianred;
-`
-const LineFill = styled.div`
-background: indianred;
-height: 100%;
-// min-width: 100%;
-`
-const ButtonsBlock = styled.div`
-margin: 1rem 0rem;
-display: flex;
-align-items: center;
+const InpLabel = styled.label`
+margin: 0.5rem auto;
+background: transparent;
+height: 2rem;
+width: 5rem;
+border: 1px solid transparent;
 `
 const Button = styled.button`
 color: black;
 font-size: 1em;
-height: 3rem;
-width: 6rem;
+height: 1.5rem;
+width: 5rem;
 border-radius: 2rem;
 margin: 0.5rem;
 text-align: center;
 border: 1px solid transparent;
 `
 
-export default Timer; 
- 
+export default Timer;
