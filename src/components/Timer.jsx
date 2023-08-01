@@ -12,15 +12,17 @@ const Timer = () => {
   }
 
   let interval = setInterval(()=>{
+    // console.log("1",minutes,"&",seconds)
     if(!isPaused){
       clearInterval(interval);
-        if (seconds > 59){
-          setSeconds(59);
-        }else if(seconds === 0){
-          setSeconds(0);
-          if (minutes !== 0){
-            setSeconds(59);
-            setMinutes(minutes - 1)
+        if(seconds === 0 ){ 
+          if(minutes !== 0){
+            if(minutes>59){
+              setMinutes(59);
+            }else{
+              setSeconds(59);
+              setMinutes(minutes-1);
+            }
           }else{
             clearInterval(interval);
             setSeconds(0);
@@ -28,6 +30,8 @@ const Timer = () => {
             setIsPaused(true);
             setTimeUp(true);
           }
+        }else if(seconds > 59){
+          setSeconds(59)
         }else{
           setSeconds(seconds - 1)
         }
@@ -38,28 +42,32 @@ const Timer = () => {
 
   return(
     <TimerBox>
-      {timeUp ? 
-          <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
-        :
-        <TimeBlock>
-          <InpBlock>
-          <InpVal id="min" maxLength={2} placeholder="--" onChange={(e) => setMinutes(parseInt(e.target.value ))} value={minutes || ''} disabled={isPaused? false : true}/>
-          <InpLabel>Minutes</InpLabel>
-          </InpBlock>
-          <InpBlock>
-          <InpVal max={59} maxLength={2} placeholder="--" onChange={(e) => setSeconds(parseInt(e.target.value))} value={seconds || ''} disabled={isPaused ? false : true}/>
-          <InpLabel>Seconds</InpLabel>
-          </InpBlock>
-        </TimeBlock>
-      }
-      {
-        timeUp ? 
-        <Button style={{color:"black"}} onClick={resetTimer} >Reset</Button>
-        :
-        <Button style={{color:"black"}} onClick={()=>setIsPaused(!isPaused)}>
-          {isPaused? "Start" : "Stop"}
-        </Button>
-      }
+      <Display>
+        {timeUp ? 
+            <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
+          :
+          <TimeBlock>
+            <InpBlock>
+              <InpVal id="min" maxLength={2} placeholder="--" onChange={(e) => setMinutes(parseInt(e.target.value ))} value={minutes || ''} disabled={isPaused? false : true}/>
+              <InpLabel>Min</InpLabel>
+            </InpBlock>
+            <InpBlock>
+              <InpVal max={59} maxLength={2} placeholder="--" onChange={(e) => setSeconds(parseInt(e.target.value))} value={seconds || ''} disabled={isPaused ? false : true}/>
+              <InpLabel>Sec</InpLabel>
+            </InpBlock>
+          </TimeBlock>
+        }
+      </Display>
+      <Buttons>
+        {
+          timeUp ? 
+          <Button style={{color:"black"}} onClick={resetTimer} >Reset</Button>
+          :
+          <Button style={{color:"black"}} onClick={()=>setIsPaused(!isPaused)}>
+            {isPaused? "Start" : "Stop"}
+          </Button>
+        }
+      </Buttons>
     </TimerBox>
   )
 }
@@ -72,6 +80,9 @@ align-items: center;
 margin: auto;
 height: 100%;
 border-radius: 2rem;
+`
+const Display = styled.div`
+border: 1px solid white;
 `
 const TimeBlock = styled.div`
 display: flex;
@@ -88,8 +99,6 @@ align-items: center;
 justify-content: center;
 `
 const InpVal = styled.input`
-// width: 5rem;
-// height: 1.5rem;
 margin: 0.5rem auto;
 display: flex;
 align-items: center;
@@ -98,7 +107,6 @@ width: 8rem;
 height: 8rem;
 font-size: 5rem;
 color: white;
-// margin: auto;
 border: 1px solid transparent;
 background: transparent;
 text-align: center;
@@ -109,6 +117,8 @@ background: transparent;
 height: 2rem;
 width: 5rem;
 border: 1px solid transparent;
+`
+const Buttons = styled.div`
 `
 const Button = styled.button`
 color: black;
