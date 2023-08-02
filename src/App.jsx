@@ -30,6 +30,5 @@ align-items: center;
 height: 80%;
 width: 80%;
 border-radius: 2rem;
-border: 1px solid white;
 `
 export default App;

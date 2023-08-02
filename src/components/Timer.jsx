@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { useTimer } from "../context/TimerContext";
 
 const Timer = () => {
-  const {seconds,setSeconds,minutes,setMinutes,isPaused,setIsPaused, timeUp,setTimeUp} = useTimer();
+  const {seconds,setSeconds,minutes,setMinutes,hours,setHours,isPaused,setIsPaused, timeUp,setTimeUp} = useTimer();
   console.log(minutes,"&",seconds)
 
   const resetTimer = () => {
     setMinutes(0);
     setSeconds(0);
+    setHours(0);
     setTimeUp(false);
   }
 
@@ -16,19 +17,26 @@ const Timer = () => {
     if(!isPaused){
       clearInterval(interval);
         if(seconds === 0 ){ 
-          if(minutes !== 0){
-            if(minutes>59){
-              setMinutes(59);
+          if(minutes === 0){
+            if(hours > 24){
+              setHours(24)
+            }else if(hours !== 0 ){
+              setMinutes(59)
+              setSeconds(59)
+              setHours(hours-1)
             }else{
-              setSeconds(59);
-              setMinutes(minutes-1);
+              clearInterval(interval);
+              setSeconds(0);
+              setMinutes(0);
+              setHours(0);
+              setIsPaused(true);
+              setTimeUp(true);
             }
+          }else if(minutes>59){
+              setMinutes(59);
           }else{
-            clearInterval(interval);
-            setSeconds(0);
-            setMinutes(0);
-            setIsPaused(true);
-            setTimeUp(true);
+            setSeconds(59);
+            setMinutes(minutes-1);
           }
         }else if(seconds > 59){
           setSeconds(59)
@@ -48,13 +56,16 @@ const Timer = () => {
           :
           <TimeBlock>
             <InpBlock>
-              <InpVal id="min" maxLength={2} placeholder="--" onChange={(e) => setMinutes(parseInt(e.target.value ))} value={minutes || ''} disabled={isPaused? false : true}/>
+              <InpVal id="min" maxLength={2} placeholder="00" onChange={(e) => setHours(parseInt(e.target.value ))} value={hours || ''} disabled={isPaused? false : true}/>
               <Span>:</Span>
-              <InpVal max={59} maxLength={2} placeholder="--" onChange={(e) => setSeconds(parseInt(e.target.value))} value={seconds || ''} disabled={isPaused ? false : true}/>
+              <InpVal id="min" maxLength={2} placeholder="00" onChange={(e) => setMinutes(parseInt(e.target.value ))} value={minutes || ''} disabled={isPaused? false : true}/>
+              <Span>:</Span>
+              <InpVal max={59} maxLength={2} placeholder="00" onChange={(e) => setSeconds(parseInt(e.target.value))} value={seconds || ''} disabled={isPaused ? false : true}/>
             </InpBlock>
             <LabelBlock>
-            <InpLabel>Minutes</InpLabel>
-            <InpLabel>Seconds</InpLabel>
+              <InpLabel>Hours</InpLabel>
+              <InpLabel>Minutes</InpLabel>
+              <InpLabel>Seconds</InpLabel>
             </LabelBlock>
           </TimeBlock>
         }
@@ -63,7 +74,7 @@ const Timer = () => {
         <Button style={{color:"black"}} onClick={()=>setIsPaused(!isPaused)}>
           {isPaused? "Start" : "Stop"}
         </Button>
-        <Button style={{color:"black"}} onClick={resetTimer} >Reset</Button>
+        <Button style={{color:"black"}} onClick={resetTimer} disabled={isPaused? false : true} >Reset</Button>
       </Buttons>
     </TimerBox>
   )
