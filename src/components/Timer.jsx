@@ -3,7 +3,7 @@ import { useTimer } from "../context/TimerContext";
 
 const Timer = () => {
   const {seconds,setSeconds,minutes,setMinutes,isPaused,setIsPaused, timeUp,setTimeUp} = useTimer();
-  // console.log(minutes,"&",seconds)
+  console.log(minutes,"&",seconds)
 
   const resetTimer = () => {
     setMinutes(0);
@@ -49,24 +49,21 @@ const Timer = () => {
           <TimeBlock>
             <InpBlock>
               <InpVal id="min" maxLength={2} placeholder="--" onChange={(e) => setMinutes(parseInt(e.target.value ))} value={minutes || ''} disabled={isPaused? false : true}/>
-              <InpLabel>Min</InpLabel>
-            </InpBlock>
-            <InpBlock>
+              <Span>:</Span>
               <InpVal max={59} maxLength={2} placeholder="--" onChange={(e) => setSeconds(parseInt(e.target.value))} value={seconds || ''} disabled={isPaused ? false : true}/>
-              <InpLabel>Sec</InpLabel>
             </InpBlock>
+            <LabelBlock>
+            <InpLabel>Minutes</InpLabel>
+            <InpLabel>Seconds</InpLabel>
+            </LabelBlock>
           </TimeBlock>
         }
       </Display>
       <Buttons>
-        {
-          timeUp ? 
-          <Button style={{color:"black"}} onClick={resetTimer} >Reset</Button>
-          :
-          <Button style={{color:"black"}} onClick={()=>setIsPaused(!isPaused)}>
-            {isPaused? "Start" : "Stop"}
-          </Button>
-        }
+        <Button style={{color:"black"}} onClick={()=>setIsPaused(!isPaused)}>
+          {isPaused? "Start" : "Stop"}
+        </Button>
+        <Button style={{color:"black"}} onClick={resetTimer} >Reset</Button>
       </Buttons>
     </TimerBox>
   )
@@ -77,26 +74,36 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-margin: auto;
 height: 100%;
+width: 100%;
 border-radius: 2rem;
 `
 const Display = styled.div`
-border: 1px solid white;
-`
-const TimeBlock = styled.div`
+border-radius: 2rem 2rem 0 0;
+flex: 3;
+width: 100%;
 display: flex;
 justify-content: center;
 align-items: center;
 `
 const TimeUpMsg = styled.div`
 font-weight: 200;
+font-size: 5rem;
+`
+const TimeBlock = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
 `
 const InpBlock = styled.div`
 display: flex;
-flex-direction: column;
 align-items: center;
 justify-content: center;
+`
+const Span = styled.div`
+font-size: 5rem;
+margin: auto;
 `
 const InpVal = styled.input`
 margin: 0.5rem auto;
@@ -111,14 +118,26 @@ border: 1px solid transparent;
 background: transparent;
 text-align: center;
 `
+const LabelBlock = styled.div`
+display: flex;
+justify-content: space-around;
+align-items: center;
+width: 100%;
+`
 const InpLabel = styled.label`
-margin: 0.5rem auto;
+margin: auto;
 background: transparent;
 height: 2rem;
 width: 5rem;
 border: 1px solid transparent;
 `
 const Buttons = styled.div`
+border-radius: 0 0 2rem 2rem;
+flex: 1;
+width: 100%;
+display: flex;
+justify-content: center;
+// align-items: center;
 `
 const Button = styled.button`
 color: black;
