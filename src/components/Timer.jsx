@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useTimer } from "../context/TimerContext";
+import plps from "../assets/play-pause.svg";
+import rst from "../assets/refresh.svg";
 
 const Timer = () => {
   const {seconds,setSeconds,minutes,setMinutes,hours,setHours,isPaused,setIsPaused, timeUp,setTimeUp} = useTimer();
@@ -52,7 +54,7 @@ const Timer = () => {
     <TimerBox>
       <Display>
         {timeUp ? 
-            <TimeUpMsg>Time's Up 🎉</TimeUpMsg>
+            <TimeUpMsg>Time's Up </TimeUpMsg>
           :
           <TimeBlock>
             <InpBlock>
@@ -72,9 +74,11 @@ const Timer = () => {
       </Display>
       <Buttons>
         <Button style={{color:"black"}} onClick={()=>setIsPaused(!isPaused)}>
-          {isPaused? "Start" : "Stop"}
+          <ButtonImg src={plps} alt="play/pause"/>
         </Button>
-        <Button style={{color:"black"}} onClick={resetTimer} disabled={isPaused? false : true} >Reset</Button>
+        <Button style={{color:"black"}} onClick={resetTimer} disabled={isPaused? false : true}>
+          <ButtonImg src={rst} alt="reset"/>
+        </Button>
       </Buttons>
     </TimerBox>
   )
@@ -100,6 +104,7 @@ align-items: center;
 const TimeUpMsg = styled.div`
 font-weight: 200;
 font-size: 5rem;
+color:#292929;
 `
 const TimeBlock = styled.div`
 display: flex;
@@ -115,6 +120,7 @@ justify-content: center;
 const Span = styled.div`
 font-size: 5rem;
 margin: auto;
+color: #545050;
 `
 const InpVal = styled.input`
 margin: 0.5rem auto;
@@ -124,7 +130,7 @@ justify-content: center;
 width: 8rem;
 height: 8rem;
 font-size: 5rem;
-color: white;
+color: #3a3a3a;
 border: 1px solid transparent;
 background: transparent;
 text-align: center;
@@ -141,6 +147,7 @@ background: transparent;
 height: 2rem;
 width: 5rem;
 border: 1px solid transparent;
+color: #545050;
 `
 const Buttons = styled.div`
 border-radius: 0 0 2rem 2rem;
@@ -148,17 +155,18 @@ flex: 1;
 width: 100%;
 display: flex;
 justify-content: center;
-// align-items: center;
 `
 const Button = styled.button`
-color: black;
-font-size: 1em;
-height: 1.5rem;
-width: 5rem;
+bacground: ${props=> props.disabled? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.8)"};
+height: 3rem;
+width: 3rem;
 border-radius: 2rem;
 margin: 0.5rem;
 text-align: center;
 border: 1px solid transparent;
 `
-
+const ButtonImg = styled.img`
+height: 20px;
+width: 20px;
+`
 export default Timer;
