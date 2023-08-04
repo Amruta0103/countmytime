@@ -5,7 +5,7 @@ import rst from "../assets/refresh.svg";
 
 const Timer = () => {
   const {seconds,setSeconds,minutes,setMinutes,hours,setHours,isPaused,setIsPaused, timeUp,setTimeUp} = useTimer();
-  console.log(minutes,"&",seconds)
+  // console.log(minutes,"&",seconds)
 
   const resetTimer = () => {
     setMinutes(0);
@@ -18,6 +18,9 @@ const Timer = () => {
     // console.log("1",minutes,"&",seconds)
     if(!isPaused){
       clearInterval(interval);
+      // if(seconds || minutes || hours === ''){
+      //   setSeconds(0) || setMinutes(0) || setHours(0)
+      // }
         if(seconds === 0 ){ 
           if(minutes === 0){
             if(hours > 24){
@@ -41,6 +44,7 @@ const Timer = () => {
             setMinutes(minutes-1);
           }
         }else if(seconds > 59){
+          // console.log("is max really working?")
           setSeconds(59)
         }else{
           setSeconds(seconds - 1)
@@ -58,11 +62,11 @@ const Timer = () => {
           :
           <TimeBlock>
             <InpBlock>
-              <InpVal id="min" maxLength={2} placeholder="00" onChange={(e) => setHours(parseInt(e.target.value ))} value={hours || ''} disabled={isPaused? false : true}/>
+              <InpVal id="min" maxLength={2} placeholder="00" onChange={(e) => setHours(parseInt(e.target.value ))} value={isNaN(hours) ? '' : hours || ''} disabled={isPaused? false : true}/>
               <Span>:</Span>
-              <InpVal id="min" maxLength={2} placeholder="00" onChange={(e) => setMinutes(parseInt(e.target.value ))} value={minutes || ''} disabled={isPaused? false : true}/>
+              <InpVal id="min" maxLength={2} placeholder="00" onChange={(e) => setMinutes(parseInt(e.target.value ))} value={isNaN(minutes) ? '' : minutes || ''} disabled={isPaused? false : true}/>
               <Span>:</Span>
-              <InpVal max={59} maxLength={2} placeholder="00" onChange={(e) => setSeconds(parseInt(e.target.value))} value={seconds || ''} disabled={isPaused ? false : true}/>
+              <InpVal maxLength={2} placeholder="00" onChange={(e) => setSeconds(parseInt(e.target.value))} onFocus={(e) => console.log(e.target.value)} value={isNaN(seconds) ? '' : seconds || ''} disabled={isPaused ? false : true}/>
             </InpBlock>
             <LabelBlock>
               <InpLabel>Hours</InpLabel>
@@ -147,7 +151,7 @@ background: transparent;
 height: 2rem;
 width: 5rem;
 border: 1px solid transparent;
-color: #545050;
+color: #3b3b3b;
 `
 const Buttons = styled.div`
 border-radius: 0 0 2rem 2rem;
