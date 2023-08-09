@@ -136,6 +136,7 @@ width: 8rem;
 color: #3a3a3a;
 border: 1px solid transparent;
 background: transparent;
+outline:none;
 text-align: center;
 @media (max-width: 600px){
   width: 30%;
