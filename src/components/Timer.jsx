@@ -131,13 +131,16 @@ margin: 0.5rem auto;
 display: flex;
 align-items: center;
 justify-content: center;
-width: 8rem;
-height: 8rem;
 font-size: 5rem;
+width: 8rem;
 color: #3a3a3a;
 border: 1px solid transparent;
 background: transparent;
 text-align: center;
+@media (max-width: 600px){
+  width: 30%;
+  font-size: 3.5rem;
+}
 `
 const LabelBlock = styled.div`
 display: flex;
@@ -149,9 +152,13 @@ const InpLabel = styled.label`
 margin: auto;
 background: transparent;
 height: 2rem;
-width: 5rem;
+width: 4rem;
 border: 1px solid transparent;
 color: #3b3b3b;
+font-size: medium;
+@media (max-width: 600px){
+  font-size: small;
+}
 `
 const Buttons = styled.div`
 border-radius: 0 0 2rem 2rem;
